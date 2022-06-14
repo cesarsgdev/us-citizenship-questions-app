@@ -1,25 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import { QuestionContainer } from "./components/styled/QuestionContainer.style";
+import { useEffect, useState } from "react";
+import QuestionLoader from "./components/QuestionLoader";
+import { NextButton } from "./components/styled/NextButton.styled";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { Oval } from "react-loader-spinner";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [questions, setQuestions] = useState(null);
+  const [questionNum, setQuestionNum] = useState(0);
+  const [answered, setAnswered] = useState(false);
+
+  useEffect(() => {
+    if (!questions) {
+      fetch("api/questions")
+        .then((response) => response.json())
+        .then((data) => {
+          setQuestions(data);
+          console.log(data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [questions, questionNum]);
+
+  const handleNextQuestion = () => {
+    setAnswered(!answered);
+    setQuestionNum(questionNum + 1);
+  };
+
+  if (!questions)
+    return (
+      <Oval
+        height="100"
+        width="100"
+        color="#FFF"
+        secondaryColor="#FFF"
+        ariaLabel="loading"
+      />
+    );
+
+  if (questions)
+    return (
+      <>
+        <QuestionContainer>
+          <QuestionLoader
+            selectAnswer={() => {
+              if (!answered) setAnswered(!answered);
+            }}
+            questions={questions[questionNum]}
+          />
+        </QuestionContainer>
+        {!answered && <NextButton>Next Question</NextButton>}
+        {answered && (
+          <NextButton onClick={handleNextQuestion} active>
+            Next Question
+          </NextButton>
+        )}
+      </>
+    );
 }
 
 export default App;
