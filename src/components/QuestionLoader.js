@@ -1,7 +1,7 @@
 import Question from "./Question";
 import QuestionOptions from "./QuestionOptions";
 
-const QuestionLoader = ({ questions, selectAnswer }) => {
+const QuestionLoader = ({ questions, selectAnswer, answerClass, answer }) => {
   return (
     <>
       {" "}
@@ -9,6 +9,8 @@ const QuestionLoader = ({ questions, selectAnswer }) => {
       <QuestionOptions
         answerQuestion={selectAnswer}
         answers={questions.answers}
+        answerClass={answerClass}
+        answer={answer}
       />
     </>
   );

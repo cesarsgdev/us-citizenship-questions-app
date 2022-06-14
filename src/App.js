@@ -11,24 +11,54 @@ function App() {
   const [questions, setQuestions] = useState(null);
   const [questionNum, setQuestionNum] = useState(0);
   const [answered, setAnswered] = useState(false);
+  const [answer, setAnswer] = useState(null);
+  const [isCorrect, setisCorrect] = useState(null);
 
   useEffect(() => {
-    if (!questions) {
-      fetch("api/questions")
+    fetch("api/questions")
+      .then((response) => response.json())
+      .then((data) => {
+        setQuestions(data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log(`effect ran!`);
+    if (answer) {
+      fetch(`api/questions/${questions[questionNum]._id}/${answer.option}`, {
+        method: `POST`,
+      })
         .then((response) => response.json())
         .then((data) => {
-          setQuestions(data);
           console.log(data);
+          if (data.result) {
+            setisCorrect(data.result);
+          } else {
+            setisCorrect(data.result);
+            if (data.correctAnswer) answer.correctAnswer = data.correctAnswer;
+          }
         })
         .catch((e) => {
           console.log(e);
         });
     }
-  }, [questions, questionNum]);
+  }, [answer]);
 
   const handleNextQuestion = () => {
     setAnswered(!answered);
     setQuestionNum(questionNum + 1);
+    setAnswer(null);
+    setisCorrect(null);
+  };
+
+  const handleAnswerQuestion = (answer) => {
+    if (!answered) setAnswered(!answered);
+    setAnswer(answer);
+    console.log(answer);
+    console.log(questions[questionNum]._id);
   };
 
   if (!questions)
@@ -49,10 +79,10 @@ function App() {
           <QuestionContainer>
             <QuestionNumber number={questionNum + 1} />
             <QuestionLoader
-              selectAnswer={() => {
-                if (!answered) setAnswered(!answered);
-              }}
+              selectAnswer={handleAnswerQuestion}
               questions={questions[questionNum]}
+              answerClass={isCorrect}
+              answer={answer}
             />
           </QuestionContainer>
           {!answered && <NextButton>Next Question</NextButton>}

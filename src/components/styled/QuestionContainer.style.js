@@ -14,6 +14,11 @@ export const QuestionContainer = styled.section`
   box-shadow: -1px -1px 2px 2px rgba(0, 0, 0, 0.05);
   user-select: none;
 
+  & span {
+    color: rgb(171, 171, 171);
+    letter-spacing: -0.5px;
+  }
+
   & h1,
   h2 {
     letter-spacing: -0.5px;
@@ -52,5 +57,14 @@ export const QuestionContainer = styled.section`
   & .answerHover:hover {
     background: rgb(243, 243, 243);
     border-color: #000;
+  }
+
+  & .correctAnswer {
+    color: white;
+    background: green;
+  }
+
+  & .incorrectAnswer {
+    border: 1px solid red;
   }
 `;
