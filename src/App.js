@@ -2,6 +2,7 @@ import { MainContainer } from "./components/styled/MainContainer.styled";
 import { QuestionContainer } from "./components/styled/QuestionContainer.style";
 import { useEffect, useState } from "react";
 import QuestionLoader from "./components/QuestionLoader";
+import QuestionNumber from "./components/QuestionNumber";
 import { NextButton } from "./components/styled/NextButton.styled";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Oval } from "react-loader-spinner";
@@ -46,6 +47,7 @@ function App() {
       <>
         <MainContainer>
           <QuestionContainer>
+            <QuestionNumber number={questionNum + 1} />
             <QuestionLoader
               selectAnswer={() => {
                 if (!answered) setAnswered(!answered);
