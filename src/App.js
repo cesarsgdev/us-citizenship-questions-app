@@ -1,3 +1,4 @@
+import { MainContainer } from "./components/styled/MainContainer.styled";
 import { QuestionContainer } from "./components/styled/QuestionContainer.style";
 import { useEffect, useState } from "react";
 import QuestionLoader from "./components/QuestionLoader";
@@ -43,20 +44,22 @@ function App() {
   if (questions)
     return (
       <>
-        <QuestionContainer>
-          <QuestionLoader
-            selectAnswer={() => {
-              if (!answered) setAnswered(!answered);
-            }}
-            questions={questions[questionNum]}
-          />
-        </QuestionContainer>
-        {!answered && <NextButton>Next Question</NextButton>}
-        {answered && (
-          <NextButton onClick={handleNextQuestion} active>
-            Next Question
-          </NextButton>
-        )}
+        <MainContainer>
+          <QuestionContainer>
+            <QuestionLoader
+              selectAnswer={() => {
+                if (!answered) setAnswered(!answered);
+              }}
+              questions={questions[questionNum]}
+            />
+          </QuestionContainer>
+          {!answered && <NextButton>Next Question</NextButton>}
+          {answered && (
+            <NextButton onClick={handleNextQuestion} active>
+              Next Question
+            </NextButton>
+          )}
+        </MainContainer>
       </>
     );
 }

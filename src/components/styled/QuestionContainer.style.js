@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-export const QuestionContainer = styled.main`
+export const QuestionContainer = styled.section`
   position: relative;
-  width: 50%;
+  width: 100%;
   height: fit-content;
   min-height: 300px;
   display: flex;
